@@ -16,3 +16,4 @@ Code is taken from the nice [practice Python](https://www.practicepython.org/) w
 
 This is an edit to README.
 Test push RikyPorry
+Aggiornamento per chiusura issue
