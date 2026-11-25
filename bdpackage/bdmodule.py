@@ -1,22 +1,34 @@
-"""Module storing a dictionary of famous birthdays and helper functions to query them."""
+"""Module reading birthdays from CSV and providing lookup helper functions."""
 
-birthdays = {
-    'Albert Einstein': '03/14/1879',
-    'Benjamin Franklin': '01/17/1706',
-    'Ada Lovelace': '12/10/1815',
-    'Donald Trump': '06/14/1946',
-    'Rowan Atkinson': '01/6/1955'}
+import csv
+
+CSV_FILENAME = "birthdays.csv"
+
+
+def get_birthdays():
+    """Read birthdays.csv and return a dictionary mapping Name -> Birthday."""
+    birthdays = {}
+    with open(CSV_FILENAME, mode="r", newline="", encoding="utf-8") as csv_file:
+        reader = csv.DictReader(csv_file)
+        for row in reader:
+            name = row["Name"].strip()
+            birthday = row["Birthday"].strip()
+            birthdays[name] = birthday
+    return birthdays
+
 
 def print_birthdays():
     """Print all names available in the birthdays dictionary."""
-    print('Welcome to the birthday dictionary. We know the birthdays of these people:')
+    birthdays = get_birthdays()
+    print("Welcome to the birthday dictionary. We know the birthdays of these people:")
     for name in birthdays:
         print(name)
 
-def return_birthday(name):
-    """Print the birthday of the requested person if present in the dictionary."""
-    if name in birthdays:
-        print('{}\'s birthday is {}'.format(name, birthdays[name]))
-    else:
-        print('Sadly, we don\'t have {}\'s birthday.'.format(name))
 
+def return_birthday(name):
+    """Print the birthday of the requested person if present in the CSV data."""
+    birthdays = get_birthdays()
+    if name in birthdays:
+        print(f"{name}'s birthday is {birthdays[name]}.")
+    else:
+        print(f"Sadly, we don't have {name}'s birthday.")
