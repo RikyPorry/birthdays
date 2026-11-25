@@ -1,16 +1,37 @@
-"""Command-line entry point to look up birthdays using the bdpackage module."""
+"""Command-line interface using argparse to look up birthdays."""
 
-import sys
+import argparse
 
 from bdpackage.bdmodule import return_birthday
 
+FIRSTNAME_CHOICES = ["Albert", "Benjamin", "Ada", "Donald", "Rowan"]
+LASTNAME_CHOICES = ["Einstein", "Franklin", "Lovelace", "Trump", "Atkinson"]
+
+
+def parse_args():
+    """Parse and return command-line arguments for firstname and lastname."""
+    parser = argparse.ArgumentParser(
+        description="Look up a person's birthday by first name and last name."
+    )
+    parser.add_argument(
+        "--firstname",
+        required=True,
+        choices=FIRSTNAME_CHOICES,
+        help="Provide your first name (e.g., --firstname Albert)",
+    )
+    parser.add_argument(
+        "--lastname",
+        required=True,
+        choices=LASTNAME_CHOICES,
+        help="Provide your last name (e.g., --lastname Einstein)",
+    )
+    return parser.parse_args()
+
 
 def main():
-    """Read a person's name from command-line arguments and print their birthday."""
-    if len(sys.argv) < 2:
-        print("Usage: python main.py <First> <Last>")
-        return
-    full_name = " ".join(sys.argv[1:])
+    """Run the birthday lookup using parsed CLI arguments."""
+    args = parse_args()
+    full_name = f"{args.firstname} {args.lastname}"
     return_birthday(full_name)
 
 
